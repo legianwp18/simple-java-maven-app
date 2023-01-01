@@ -21,9 +21,15 @@ pipeline {
                 }
             }
         }
-        stage('Deliver') {
+        stage('Manual Approval') {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                input message: 'Finished using the web site? (Click "Proceed" to continue)'
+            }
+        }   
+        stage('Deploy') {
+            steps {
+                sh './jenkins/scripts/deploy.sh'
+                sh './jenkins/scripts/kill.sh'
             }
         }
     }
